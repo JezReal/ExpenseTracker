@@ -1,0 +1,22 @@
+{% include "common/_base.html" %}
+
+<h2>Add expense:</h2>
+<form action="{% url 'expensetracker:add_expense' %}" method="post">
+    {% csrf_token %}
+    <label for="item_name">Item name:</label>
+    <input id="item_name" type="text" placeholder="Expense name"/>
+
+    <label for="item_price">Item price:</label>
+    <input id="item_price" type="number" placeholder="100" required/>
+
+    <button type="submit">Add expense</button>
+</form>
+<h1>List of expenses:</h1>
+<div id="expenses_list">
+    {% if expenses %}
+        {% for expense in expenses %}
+            <h3>{{ expense.item_name }}</h3>
+            <h3>{{ expense.item_price }}</h3>
+        {% endfor %}
+    {% endif %}
+</div>
