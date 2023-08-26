@@ -1,6 +1,7 @@
 from django import forms
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render
+from django.template.loader import get_template
 from django.views.decorators.http import require_POST
 
 from expensetracker.models import ExpenseItem
@@ -14,35 +15,34 @@ class ExpenseItemForm(forms.Form):
 
 
 def index(request):
-    if request.method == 'GET':
-        expenses = ExpenseItem.objects.all()
-        context = {
-            'expenses': expenses
-        }
-
-        return render(request, 'expensetracker/index.html', context=context)
     return render(request, 'expensetracker/index.html')
 
 
 def get_expenses(request):
     expenses = ExpenseItem.objects.all()
 
-    return HttpResponse()
+    return render(request, 'components/test.html', context={'expense_list': expenses})
 
 
 @require_POST
 def add_expense(request):
     data = ExpenseItemForm(request.POST)
 
+    print(f'Data bruh: {request.POST}')
+
     if data.is_valid():
         expense_item = ExpenseItem()
-        expense_item.item_name = data.item_name
-        expense_item.item_price = data.item_price
+        expense_item.item_name = data.cleaned_data['item_name']
+        expense_item.item_price = data.cleaned_data['item_price']
         expense_item.save()
 
-        return HttpResponse('<p>A new item bruh</p>')
+        context = {
+            'expense_data': expense_item
+        }
 
-    return HttpResponseBadRequest()
+        return render(request, 'components/test.html', context=context)
+    else:
+        return render(request, data)
 
 
 def somewhere(request):

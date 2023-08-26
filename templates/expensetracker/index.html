@@ -1,22 +1,17 @@
 {% include "common/_base.html" %}
 
 <h2>Add expense:</h2>
-<form action="{% url 'expensetracker:add_expense' %}" method="post">
+<form hx-post="/expense" hx-swap="beforeend" hx-target="#expenses_list">
     {% csrf_token %}
     <label for="item_name">Item name:</label>
-    <input id="item_name" type="text" placeholder="Expense name"/>
+    <input id="item_name" type="text" placeholder="Expense name" name="item_name"/>
 
     <label for="item_price">Item price:</label>
-    <input id="item_price" type="number" placeholder="100" required/>
+    <input id="item_price" type="number" placeholder="100" required name="item_price"/>
 
     <button type="submit">Add expense</button>
 </form>
 <h1>List of expenses:</h1>
-<div id="expenses_list">
-    {% if expenses %}
-        {% for expense in expenses %}
-            <h3>{{ expense.item_name }}</h3>
-            <h3>{{ expense.item_price }}</h3>
-        {% endfor %}
-    {% endif %}
+<div id="expenses_list" hx-get="/expenses" hx-trigger="load">
+
 </div>
