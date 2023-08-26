@@ -1,13 +1,4 @@
 <div>
-    {% if expense_list %}
-        {% for expense in expense_list %}
-            <div>
-                Name: {{ expense.item_name }}
-                Price: {{ expense.item_price }}
-            </div>
-        {% endfor %}
-    {% else %}
-        Name: {{ expense_data.item_name }}
-        Price: {{ expense_data.item_price }}
-    {% endif %}
+    Name: {{ expense_data.item_name }}
+    Price: {{ expense_data.item_price }}
 </div>
