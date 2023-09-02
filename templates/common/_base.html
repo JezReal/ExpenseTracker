@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,6 +11,7 @@
     {% block title %}
         <title>Django+HTMX</title>
     {% endblock %}
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
 </head>
 <body>
 {% include "common/_navbar.html" %}
