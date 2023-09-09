@@ -4,7 +4,7 @@
     <title>Add expense</title>
 {% endblock %}
 {% block content %}
-    <h2>Add expense:</h2>
+    <h2 class="text-3xl">Add expense:</h2>
     <form hx-post="/expense" hx-swap="beforeend" hx-target="#expenses_list">
         {% csrf_token %}
         <label for="item_name">Item name:</label>
