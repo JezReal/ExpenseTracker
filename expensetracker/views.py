@@ -2,7 +2,7 @@ from django import forms
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
-from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_POST, require_GET
 
 from expensetracker.models import ExpenseItem
 
@@ -22,17 +22,13 @@ def get_expenses(request):
     expenses = ExpenseItem.objects.all()
     expenses_html = []
     for expense in expenses:
-        expenses_html.append(render_to_string('components/test.html', context={'expense_data': expense}))
-
+        expenses_html.append(render_to_string('components/card.html', context={'expense_data': expense}))
     return HttpResponse("\n".join(expenses_html))
 
 
 @require_POST
 def add_expense(request):
     data = ExpenseItemForm(request.POST)
-
-    print(f'Data bruh: {request.POST}')
-
     if data.is_valid():
         expense_item = ExpenseItem()
         expense_item.item_name = data.cleaned_data['item_name']
@@ -42,15 +38,16 @@ def add_expense(request):
         context = {
             'expense_data': expense_item
         }
-
-        return render(request, 'components/test.html', context=context)
+        return render(request, 'components/card.html', context=context)
     else:
         return render(request, data)
 
 
-def somewhere(request):
-    return render(request, 'expensetracker/somewhere.html')
+@require_GET
+def expenses_chart(request):
+    return render(request, 'expensetracker/chart.html')
 
 
+@require_GET
 def about(request):
     return render(request, 'expensetracker/about.html')

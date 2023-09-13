@@ -1,7 +1,7 @@
 {% extends "common/_base.html" %}
 
 {% block title %}
-    <title>Add expense</title>
+    <title>ExpenseTracker</title>
 {% endblock %}
 {% block content %}
     <h2 class="text-3xl">Add expense:</h2>
@@ -15,6 +15,7 @@
 
         <button type="submit">Add expense</button>
     </form>
+    {% include "expensetracker/chart.html" %}
     <h1>List of expenses:</h1>
     <div id="expenses_list" hx-get="/expenses" hx-trigger="load">
 
